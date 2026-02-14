@@ -1,0 +1,391 @@
+/* Button Container */
+.disappearing-button-container {
+  position: relative;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+/* Infinity War Snap Effect */
+.disappearing-button {
+  padding: 20px 40px;
+  font-size: 1.3rem;
+  background: linear-gradient(45deg, #0B2D72, #0992C2);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  min-width: 200px;
+  box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #9b30ff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  transform-origin: center center;
+}
+
+.disappearing-button:hover:not(.snap-disappear) {
+  transform: scale(1.08);
+  box-shadow: 0 15px 40px rgba(138, 43, 226, 0.7);
+  background: linear-gradient(45deg, #9b30ff, #68228b);
+}
+
+.disappearing-button:active {
+  transform: scale(0.95);
+}
+
+.button-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Dust Overlay that covers the button area */
+.dust-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+
+/* Dust Particles */
+.dust-particle {
+  position: absolute;
+  width: var(--particle-size, 4px);
+  height: var(--particle-size, 4px);
+  background: var(--particle-color, #d2691e);
+  border-radius: 50%;
+  animation: dustFloatOut 1.5s ease-out forwards var(--delay, 0s);
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+  opacity: 0;
+  transform-origin: center center;
+}
+
+/* Dust floating out from the button */
+@keyframes dustFloatOut {
+  0% {
+    opacity: 0;
+    transform: 
+      translate(var(--offset-x, 0), var(--offset-y, 0)) 
+      scale(0.1) 
+      rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+    transform: 
+      translate(
+        calc(var(--distance) * cos(var(--angle)) * 0.3),
+        calc(var(--distance) * sin(var(--angle)) * 0.3)
+      )
+      scale(1) 
+      rotate(calc(var(--rotation) * 0.3));
+  }
+  60% {
+    opacity: 0.8;
+    transform: 
+      translate(
+        calc(var(--distance) * cos(var(--angle)) * 0.7),
+        calc(var(--distance) * sin(var(--angle)) * 0.7)
+      )
+      scale(0.8) 
+      rotate(calc(var(--rotation) * 0.7));
+  }
+  100% {
+    opacity: 0;
+    transform: 
+      translate(
+        calc(var(--distance) * cos(var(--angle))),
+        calc(var(--distance) * sin(var(--angle)))
+      )
+      scale(0.2) 
+      rotate(var(--rotation));
+  }
+}
+
+/* Button Dust Effect - particles coming from inside the button */
+.button-dust-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.button-dust-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #d2691e;
+  border-radius: 50%;
+  animation: dustEscape 1.2s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes dustEscape {
+  0% {
+    opacity: 0;
+    transform: 
+      translate(calc(50% - 25px + Math.random() * 50px), calc(50% - 15px + Math.random() * 30px))
+      scale(0.1);
+  }
+  30% {
+    opacity: 0.8;
+    transform: 
+      translate(
+        calc(50% - 25px + (Math.random() - 0.5) * 100px),
+        calc(50% - 15px + (Math.random() - 0.5) * 60px)
+      )
+      scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: 
+      translate(
+        calc(50% - 25px + (Math.random() - 0.5) * 200px),
+        calc(50% - 15px + (Math.random() - 0.5) * 120px)
+      )
+      scale(0.1);
+  }
+}
+
+/* Snap Animation States */
+.disappearing-button.snap-start {
+  animation: snapGlow 0.5s ease-out, stoneColors 1s linear;
+}
+
+.disappearing-button.snap-disappear {
+  animation: thanosSnapDisintegration 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  pointer-events: none;
+}
+
+.disappearing-button.reappear {
+  animation: reassemble 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Infinity Gauntlet Snap Sound Effect */
+@keyframes snapGlow {
+  0% {
+    box-shadow: 
+      0 0 0 0 rgba(255, 215, 0, 0.7),
+      0 10px 30px rgba(138, 43, 226, 0.5);
+  }
+  70% {
+    box-shadow: 
+      0 0 0 40px rgba(255, 215, 0, 0),
+      0 10px 30px rgba(138, 43, 226, 0.5);
+  }
+  100% {
+    box-shadow: 
+      0 0 0 0 rgba(255, 215, 0, 0),
+      0 10px 30px rgba(138, 43, 226, 0.5);
+  }
+}
+
+/* Thanos Snap Disintegration Effect - UPDATED */
+@keyframes thanosSnapDisintegration {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: brightness(1) blur(0px);
+    background: linear-gradient(45deg, #9370db, #8a2be2);
+    border-color: #9b30ff;
+  }
+  15% {
+    transform: scale(1.05) rotate(3deg);
+    filter: brightness(1.5) blur(1px);
+    box-shadow: 
+      0 0 50px gold,
+      0 10px 40px rgba(138, 43, 226, 0.6);
+  }
+  30% {
+    transform: scale(0.95) rotate(-3deg);
+    filter: brightness(2) blur(2px);
+    opacity: 0.9;
+    background: linear-gradient(45deg, #8a2be2, #6a0dad);
+    border-color: #ff4500;
+  }
+  45% {
+    transform: scale(1.08) rotate(5deg);
+    filter: brightness(2.5) blur(3px);
+    opacity: 0.8;
+    background: linear-gradient(45deg, #800080, #4b0082);
+    border-color: #32cd32;
+  }
+  60% {
+    transform: scale(0.9) rotate(-5deg);
+    filter: brightness(3) blur(4px);
+    opacity: 0.7;
+    background: linear-gradient(45deg, #4b0082, #191970);
+    border-color: #1e90ff;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  75% {
+    transform: scale(1.1) rotate(8deg);
+    filter: brightness(3.5) blur(5px);
+    opacity: 0.5;
+    background: linear-gradient(45deg, #191970, #8b0000);
+    border-color: #ffd700;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  90% {
+    transform: scale(0.7) rotate(-10deg);
+    filter: brightness(4) blur(6px);
+    opacity: 0.2;
+    background: linear-gradient(45deg, #8b0000, #8b4513);
+    border-color: #d2691e;
+    color: rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    transform: scale(0) rotate(15deg);
+    opacity: 0;
+    filter: brightness(5) blur(8px);
+    background: linear-gradient(45deg, #8b4513, #a0522d);
+    border-color: transparent;
+    color: transparent;
+    box-shadow: none;
+  }
+}
+
+/* Infinity Stone colors flashing */
+@keyframes stoneColors {
+  0% { 
+    background: linear-gradient(45deg, #9370db, #8a2be2);
+    border-color: #9b30ff;
+  }
+  20% { 
+    background: linear-gradient(45deg, #ff0000, #ff4500);
+    border-color: #ff0000;
+  } /* Power Stone */
+  40% { 
+    background: linear-gradient(45deg, #00ff00, #32cd32);
+    border-color: #00ff00;
+  } /* Time Stone */
+  60% { 
+    background: linear-gradient(45deg, #0000ff, #1e90ff);
+    border-color: #0000ff;
+  } /* Space Stone */
+  80% { 
+    background: linear-gradient(45deg, #ffff00, #ffd700);
+    border-color: #ffff00;
+  } /* Mind Stone */
+  100% { 
+    background: linear-gradient(45deg, #9370db, #8a2be2);
+    border-color: #9b30ff;
+  }
+}
+
+/* Reassembly animation */
+@keyframes reassemble {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+    filter: brightness(0.3) blur(15px);
+    background: linear-gradient(45deg, #a0522d, #8b4513);
+    border-color: transparent;
+    color: transparent;
+  }
+  20% {
+    transform: scale(0.2) rotate(-30deg);
+    opacity: 0.2;
+    filter: brightness(0.5) blur(12px);
+    background: linear-gradient(45deg, #8b4513, #8b0000);
+    border-color: #8b4513;
+  }
+  40% {
+    transform: scale(0.4) rotate(-15deg);
+    opacity: 0.4;
+    filter: brightness(0.8) blur(9px);
+    background: linear-gradient(45deg, #8b0000, #191970);
+    border-color: #800080;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  60% {
+    transform: scale(1.2) rotate(10deg);
+    opacity: 0.8;
+    filter: brightness(1.5) blur(6px);
+    background: linear-gradient(45deg, #191970, #4b0082);
+    border-color: #4b0082;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  80% {
+    transform: scale(0.95) rotate(-5deg);
+    opacity: 0.95;
+    filter: brightness(1.2) blur(3px);
+    background: linear-gradient(45deg, #4b0082, #6a0dad);
+    border-color: #6a0dad;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: brightness(1) blur(0px);
+    background: linear-gradient(45deg, #9370db, #8a2be2);
+    border-color: #9b30ff;
+    color: white;
+  }
+}
+
+/* Countdown Message */
+.countdown-message {
+  padding: 20px 40px;
+  font-size: 1.2rem;
+  background: linear-gradient(45deg, #1a1a2e, #16213e);
+  color: #00d4ff;
+  border-radius: 50px;
+  font-weight: bold;
+  min-width: 220px;
+  text-align: center;
+  border: 2px solid #00d4ff;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  animation: pulseCountdown 1s infinite;
+}
+
+@keyframes pulseCountdown {
+  0%, 100% { 
+    opacity: 0.8; 
+    transform: scale(1); 
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.05); 
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+  }
+}
+
+.disappearing-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
+  z-index: 1;
+}
+
+.disappearing-button:hover::before {
+  left: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .disappearing-button-container {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  
+  .dust-overlay {
+    width: 200px;
+    height: 70px;
+  }
+}
